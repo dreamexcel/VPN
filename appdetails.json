@@ -1,5 +1,5 @@
 {
-  "ads":"true",
+  "ads":"false",
   "update":[{
     "version":"2.8.1600",
     "title":"This app is now Open Source",
@@ -16,6 +16,6 @@
     {"id":6, "app":"com.get.client"}
   ],
   "free":[
-    {"id":0, "file":0, "city":"Roma","country":"Italy","image":"italy","ip":"82.76.139.18","active":"true","signal":"a"}
+    {"id":0, "file":0, "city":"buzau","country":"Italy","image":"italy","ip":"82.76.139.18","active":"true","signal":"a"}
   ]
 }
