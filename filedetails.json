@@ -109,6 +109,6 @@ c017b281fe093792e078f789a6319208
 cd4d6c3d87ee07dbd7042d3d13972e04
 fb93ad61d4c6f7dba64fa05fbbcc2776
 -----END OpenVPN Static key V1-----
-</tls-auth>,
-     {"id":1,"file":""}]
+</tls-auth>"},
+    {"id":1,"file":""}]
 }
