@@ -1,1 +1,114 @@
-{ "firewall": {     "name": {       "WAN_LOCAL": {"rule": {"20": {"action": "accept","description": "Allow OpenVPN clients in","destination": {"port": "1194"},"log": "disable","protocol": "udp"}}}     }}, "interfaces":      {"openvpn": {       "vtun0": {         "encryption": "aes128",         "mode": "server",         "openvpn-option": ["--keepalive 8 30","--comp-lzo","--duplicate-cn","--user nobody --group nogroup",         "--plugin /usr/lib/openvpn/openvpn-auth-pam.so login","--client-cert-not-required --username-as-common-name",           "--verb 1","--proto udp6","--port 1194","--push redirect-gateway def1",           "--push dhcp-option DNS 8.8.8.8","--push dhcp-option DNS 8.8.4.4"         ],         "server": {"subnet": "10.0.1.0/24"},         "tls": {           "ca-cert-file": "/config/auth/keys/ca.crt",           "cert-file": "/config/auth/keys/server.crt",           "dh-file": "/config/auth/keys/dh2048.pem",           "key-file": "/config/auth/keys/server.key"         }       }     }     }, "service": {"nat": {"rule": {"5010": {"description": "Masquerade for WAN","outbound-interface": "eth0","type": "masquerade"}}}} }
+{
+  "ovpn_file":[
+    {"id":0,"file":"client
+dev tun
+proto udp
+sndbuf 0
+rcvbuf 0
+remote 82.76.139.18 1194
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+remote-cert-tls server
+auth SHA512
+cipher AES-256-CBC
+setenv opt block-outside-dns
+key-direction 1
+verb 3
+<ca>
+-----BEGIN CERTIFICATE-----
+MIIDQjCCAiqgAwIBAgIUOe9/DIu0nsRfC6uBYCil66vcunkwDQYJKoZIhvcNAQEL
+BQAwEzERMA8GA1UEAwwIQ2hhbmdlTWUwHhcNMjAxMTE2MDkwODAxWhcNMzAxMTE0
+MDkwODAxWjATMREwDwYDVQQDDAhDaGFuZ2VNZTCCASIwDQYJKoZIhvcNAQEBBQAD
+ggEPADCCAQoCggEBAL81bs9NpYq7G42A29Yd4AK4TXLZBU3Atr2TjJjdS4E2wBYy
+00eNltOmnF5zd8EZ+AgtdNp4Uus+fdY25wJcHX+sxlPAU19wMDsz6eVXI1g1XPsw
+odYv2dO0EKJ0Uj445Kb5wj7t+jbC/kX9D5Logqy0G6+Q/RtFjh+fFBjCqfTckWW4
+VpQ9ErGyFw1tbUD/cLjsfFAAb+wmvItXIuC6olMorFDyVL/85oboBOKZD8gSO2OE
+hXd6BqLRvVHwpAMmjz0FwyKDrzZqxNeaYnIwY+K41OcKwmPC2221n1bVOG0cL1Wn
+js1VCzGYnvjopm3qJ7c3cumm89jhmHp+KK3h71sCAwEAAaOBjTCBijAdBgNVHQ4E
+FgQU2spULriE5mCAHtGwLCsiYbzTE9gwTgYDVR0jBEcwRYAU2spULriE5mCAHtGw
+LCsiYbzTE9ihF6QVMBMxETAPBgNVBAMMCENoYW5nZU1lghQ5738Mi7SexF8Lq4Fg
+KKXrq9y6eTAMBgNVHRMEBTADAQH/MAsGA1UdDwQEAwIBBjANBgkqhkiG9w0BAQsF
+AAOCAQEAkAIn2t+sLUsNM62JGCPdA7qCH4Kitwv9cB+6tH/rDoc1KzeMZJMGgKvZ
+py04WVYvfqVh4+X+zPx9yGTMczlMvtU67RKHCnEXhEwsKBmKYWzUhQcGa47ru4UQ
+yj4n0wL9l5b59wNuGN+0LNgTkCtrm7X0pzg4SVvXdBQNExj/ncCHEpWFL6cADbrN
+7Tj1PTp55ts7TCUaNvYiRNQBvYW69VAmZ9pMRalQ7bKTScSHR7NvBWdDAiICg9dt
+U1L5hkj9Dsnglor9KBeoIY+0TGs8jENp9Sgv7pBefU3at/gFl8yyF6R5GwwTlsyo
+sdF3Gs6pe+cWiB7s+iNs0NcrjmE1og==
+-----END CERTIFICATE-----
+</ca>
+<cert>
+-----BEGIN CERTIFICATE-----
+MIIDVTCCAj2gAwIBAgIRALr4+NwWfRDDz+Bz96u1HJUwDQYJKoZIhvcNAQELBQAw
+EzERMA8GA1UEAwwIQ2hhbmdlTWUwHhcNMjAxMTE2MDkwODAyWhcNMzAxMTE0MDkw
+ODAyWjAXMRUwEwYDVQQDDAxnb29nbGUtY2xvdWQwggEiMA0GCSqGSIb3DQEBAQUA
+A4IBDwAwggEKAoIBAQDPQcgzS93xb7Y/xwvJ2mB7GoATi//nEVw2hJI7yD9nLWCO
+I7SYVhojY69/qAYd3SFC3ht/ILlUzsPlD4yVNVqEeAZI+nFR4xlyLCFukeIX1Cpz
+shPZKNLmjy2mupD1j+aPl7rUB49zNLJWsPqaY9mIXJglC5gojOn0pA69AYSQZISL
+rtf3e130qMV+1lbPm6B1hPagW5p965aREIOp0ab25JGmOx7OTOlqxW5p0XKnAifx
+jJNhbannMVvpU/4wr/ZTA8yoZsWMC6Y/iVKANqzNFNFV0J3oHA/efS/KAMdu38kT
+/8076swdFViFOR26J2XBnNucSAJ0UXufrTnnoeSzAgMBAAGjgZ8wgZwwCQYDVR0T
+BAIwADAdBgNVHQ4EFgQUPAeUrlCqYk+5Rfp48iynlzglB2EwTgYDVR0jBEcwRYAU
+2spULriE5mCAHtGwLCsiYbzTE9ihF6QVMBMxETAPBgNVBAMMCENoYW5nZU1lghQ5
+738Mi7SexF8Lq4FgKKXrq9y6eTATBgNVHSUEDDAKBggrBgEFBQcDAjALBgNVHQ8E
+BAMCB4AwDQYJKoZIhvcNAQELBQADggEBAEgRq2aFrmK8cUaOyC4NoFxX95ptc9mc
+RycTIgxPCvhsJ+/H9/EZlJgxYe7dN1LYTftaqkfER9k/VpmT+H+8YQztlyphvsZ0
+hUIBvcW4btCtYk4J4dpqe3U4JJ7B1Ul2AXk5a8f43NUHCBqh+484NMtPmPcfGY9G
+5iLlW28HUb5BKc62a3Ijn2HGOfuHE2OcQwO4aV7BhyP/Sn4kAxCPUanAyQFratPH
+o9LxMQsuQPnjhdljp3yE4RkiUR6B4Okb1B1avdMDOOrV9nOEhdW4sRkqqFGZ5XMj
+H9mesQcRvkc8HcKT50ez3789Ts2JITyTPCEAknnYBQJoJhID7uWRVuA=
+-----END CERTIFICATE-----
+</cert>
+<key>
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDPQcgzS93xb7Y/
+xwvJ2mB7GoATi//nEVw2hJI7yD9nLWCOI7SYVhojY69/qAYd3SFC3ht/ILlUzsPl
+D4yVNVqEeAZI+nFR4xlyLCFukeIX1CpzshPZKNLmjy2mupD1j+aPl7rUB49zNLJW
+sPqaY9mIXJglC5gojOn0pA69AYSQZISLrtf3e130qMV+1lbPm6B1hPagW5p965aR
+EIOp0ab25JGmOx7OTOlqxW5p0XKnAifxjJNhbannMVvpU/4wr/ZTA8yoZsWMC6Y/
+iVKANqzNFNFV0J3oHA/efS/KAMdu38kT/8076swdFViFOR26J2XBnNucSAJ0UXuf
+rTnnoeSzAgMBAAECggEAXJ5SABJsSWOZtyCVNQxAx2KNT67lmfYZFkfiLZMMOmh9
+2Kc+IkGABsaae9qzeQ8DuSUWdpZCHBMWWbu8IEWqgL4+WMiKcYSiL3JnMklBF1L5
+8Z/n3MiwjtX3GaYP95zp9MticzQ5t8sZ00Hdi7cJVDXEy/FFewGV33ydFXujKP7k
+KPlW+VmizrmblxmnzovmEIYS9SBv51ClAd91KLjHBDLeH4buaSVoE1qLWjpqnsws
+HBsNe1aLAt+IaTZAi8hkMZsY9kRVVAhtoy97h37UkGoL6pd9OGcnhHNgPZ+zRuWz
+jgsr1y3rGhy9hxGf5GKxTN7rTVk85iJr7pr5qHixOQKBgQD13nDem1lbiBSiBHPu
+eaEQCco9bjgqjL9sRMz28hmi4ZwNXRf+30Wa8BQQ79XEDQgNCn1IQZgcaGiIxDOu
+Z+aFXABPvXzFoHDRmWHipd0bFLovR0oea8h1ivzj4SGc+195TgUgW6EXjUnK0o3z
+R7IM1+A62SksljOK+/QdkvrHXQKBgQDXzAqRd1Rq+1WX6WuRq7AISJbLGsUjY86W
+0pe8F715AQf8vjk2yD73wthTotLPYO87ZAePqyG+4zBBaEB9XCl6zrBAHIsXs5yQ
+dFrl7XjjUyCCvZjP7AjHpvHGomkQ4xTPU06v09n5cO6Hm2hDDZuBP4mPotW9h3s3
+KY7+bGzrTwKBgCEs6Zfv6EfEfdw6s5XrDYOHfqV5WNTM9wtZ4To1AqaKwK7A7/rx
+D4hPerWqVvLEO2DfGHaGe0rh/7DsoHiZBm7aMiSQUeSsuGxfwOh/Lu13h4PXn7Wp
+H3xUy7jH6OwwsvpAP8rU8lCmPN3EOWkpNGotOtFV+gtNHRlU0+Slr3b1AoGBAJpv
+xihw1BN0J79+J6Oq0WI8QN6+G9PF+/VoZXsRKmJM4KB6qouQJ7A824CPiHstjkhc
+wCSLfq0T/lbw+yY8LNtczDo1sz2VJzkibGMc3mUh+qRWd+RlsargySs01Chnu17c
+6fVfkiG4Np0KFUXXmTCYfiQzjvAC46WIsnNWuWR1AoGAOCvBk4HMrh8LiBA+L2d5
+312u90buyxNDy/zecLKp0iAgC7ix4x09LM5SzVGkb4pGzBEUQ9JcumoUxrO26DcU
+qPj1ylEQk6UDBZD9a2nrZV+T1NEe+oGhN8p2gatb5olCql44LNZ6gx9siNV1k1hK
+U2/Zxf8bqymUvflOssGGrqo=
+-----END PRIVATE KEY-----
+</key>
+<tls-auth>
+-----BEGIN OpenVPN Static key V1-----
+753703dc575aff6910b917e4fb123c98
+8155d3b521c36ebcb52802961814c225
+e8813b9049e1849ba67c3be1ad5e279a
+d1ff87c9bd7e4314db9a79853a53f783
+026c9c788cd5999cd13addb2df78ba81
+461a698370bb54d7b0a3142fb5d5bdb1
+73144fc9b033eb555dd89a8b422ff41e
+651721e2db30496aa429c013edcceea3
+5b53c4aa03c52eacf170d3421719c76d
+20ab6e16d1d3e612ae77e04ef3f7a9d7
+14dd608eb8212c5fa51b70d725043342
+c017b281fe093792e078f789a6319208
+58211b4522898a2e3587f3826f6800e3
+11b99ffe8e4dfde1958f6efff38924c9
+cd4d6c3d87ee07dbd7042d3d13972e04
+fb93ad61d4c6f7dba64fa05fbbcc2776
+-----END OpenVPN Static key V1-----
+</tls-auth>,
+    {"id":1,"file":""}]
+}
